@@ -17,6 +17,7 @@ import {VinewoodBoulevardRadio} from './radios/VinewoodBoulevardRadio';
 import {WCTR} from './radios/WCTR';
 import {WestCoastClassics} from './radios/WestCoastClassics';
 import {WorldWideFM} from './radios/WorldWideFM';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -54,6 +55,8 @@ export class AppComponent implements OnInit {
   currentSong: any;
   degrees = 360 / this.radios.length;
 
+  public constructor(private titleService: Title ) { }
+
   ngOnInit() {
     this.currentRadio = this.radios[Math.floor(Math.random() * this.radios.length)];
     this.changeStation(this.currentRadio);
@@ -62,6 +65,7 @@ export class AppComponent implements OnInit {
   savePlayer(player) {
     this.player = player;
     this.player.playVideo();
+    this.setTitle(this.currentSong.artist + ' - ' + this.currentSong.name + ' | ' + this.currentRadio.name);
   }
 
   onStateChange(event) {
@@ -75,5 +79,9 @@ export class AppComponent implements OnInit {
     this.player.stopVideo();
     this.player.loadVideoById(this.musicID);
     this.savePlayer(this.player);
+  }
+
+  setTitle(title) {
+    this.titleService.setTitle(title);
   }
 }
