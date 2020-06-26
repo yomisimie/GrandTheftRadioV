@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {NgxYoutubePlayerModule} from 'ngx-youtube-player';
+import {NgxFaviconModule} from 'ngx-favicon';
+import {AvailableCustomFavicons, customFavicons} from '../favicon.config';
 
 @NgModule({
   declarations: [
@@ -11,6 +13,11 @@ import {NgxYoutubePlayerModule} from 'ngx-youtube-player';
   imports: [
     BrowserModule,
     NgxYoutubePlayerModule,
+    NgxFaviconModule.forRoot<AvailableCustomFavicons>({
+      faviconElementId: 'favicon',
+      defaultUrl: 'favicon.ico',
+      custom: customFavicons
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

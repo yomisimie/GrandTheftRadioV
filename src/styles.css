@@ -51,16 +51,17 @@
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   z-index: 10;
-}
-#title {
-  position: absolute;
   font-family: SignPainter;
-  font-size: 3.5em;
+  font-size: 30px;
+  font-weight: normal;
   text-align: center;
-  margin: 0 0 5px;
-  top: 220px;
-  left: 50%;
-  transform: translateX(-50%) translateY(-100%);
+}
+#player #station {
+  font-size: 40px;
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  font-weight: bold;
 }
 
 html, body { height: 100%; }

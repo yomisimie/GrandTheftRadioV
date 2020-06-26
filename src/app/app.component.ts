@@ -18,6 +18,8 @@ import {WCTR} from './radios/WCTR';
 import {WestCoastClassics} from './radios/WestCoastClassics';
 import {WorldWideFM} from './radios/WorldWideFM';
 import {Title} from '@angular/platform-browser';
+import {CustomFavicon} from '../favicon.config';
+import {NgxFaviconService} from 'ngx-favicon';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +27,8 @@ import {Title} from '@angular/platform-browser';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  public CustomFavicon: typeof CustomFavicon = CustomFavicon;
+
   elSize = 64;
   innerHeight = window.innerHeight;
 
@@ -55,7 +59,10 @@ export class AppComponent implements OnInit {
   currentSong: any;
   degrees = 360 / this.radios.length;
 
-  public constructor(private titleService: Title ) { }
+  public constructor(
+    private titleService: Title,
+    private ngxFaviconService: NgxFaviconService<CustomFavicon>
+  ) { }
 
   ngOnInit() {
     this.currentRadio = this.radios[Math.floor(Math.random() * this.radios.length)];
@@ -66,10 +73,11 @@ export class AppComponent implements OnInit {
     this.player = player;
     this.player.playVideo();
     this.setTitle(this.currentSong.artist + ' - ' + this.currentSong.name + ' | ' + this.currentRadio.name);
+    this.setCustomFavicon(this.currentRadio.favicon);
   }
 
   onStateChange(event) {
-    console.log('player state', event.data);
+    // console.log('player state', event.data);
   }
 
   changeStation(radio) {
@@ -83,5 +91,17 @@ export class AppComponent implements OnInit {
 
   setTitle(title) {
     this.titleService.setTitle(title);
+  }
+
+  setCustomFavicon(faviconName: CustomFavicon): void {
+    if (typeof faviconName === 'undefined') {
+      this.setDefaultFavicon();
+    } else {
+      this.ngxFaviconService.setCustomFavicon(faviconName);
+    }
+  }
+
+  public setDefaultFavicon(): void {
+    this.ngxFaviconService.setDefaultFavicon();
   }
 }

@@ -2,6 +2,7 @@ export const WCTR = {
   name: 'WCTR',
   image: 'assets/radio/WCTR.png',
   color: 'dark',
+  favicon: 'WCTR',
   intros: [
     'test'
   ],
