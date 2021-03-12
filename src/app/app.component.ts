@@ -20,6 +20,9 @@ import {WorldWideFM} from './radios/WorldWideFM';
 import {Title} from '@angular/platform-browser';
 import {CustomFavicon} from '../favicon.config';
 import {NgxFaviconService} from 'ngx-favicon';
+import {Radio} from './model/radio';
+import {Song} from './model/song';
+import * as Meyda from 'meyda/dist/web/meyda.min.js';
 
 @Component({
   selector: 'app-root',
@@ -55,9 +58,11 @@ export class AppComponent implements OnInit {
     WestCoastClassics,
     WorldWideFM
   ];
-  currentRadio: any;
-  currentSong: any;
+  radiosPause = [];
+  currentRadio: Radio;
+  currentSong: Song;
   degrees = 360 / this.radios.length;
+  levelRangeElement = 0;
 
   public constructor(
     private titleService: Title,
@@ -65,28 +70,34 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentRadio = this.radios[Math.floor(Math.random() * this.radios.length)];
-    this.changeStation(this.currentRadio);
+    this.currentRadio = new Radio(this.radios[Math.floor(Math.random() * this.radios.length)]);
+    this.changeStation(this.currentRadio, true);
   }
 
   savePlayer(player) {
     this.player = player;
     this.player.playVideo();
+    this.player.setPlaybackQuality('small');
     this.setTitle(this.currentSong.artist + ' - ' + this.currentSong.name + ' | ' + this.currentRadio.name);
     this.setCustomFavicon(this.currentRadio.favicon);
   }
 
   onStateChange(event) {
-    // console.log('player state', event.data);
+    console.log('player state', event.data);
   }
 
-  changeStation(radio) {
+  changeStation(radio: Radio, init = false) {
+    if (!init && this.currentRadio === radio) {
+      return;
+    }
     this.currentRadio = radio;
     this.currentSong = radio.songs[Math.floor(Math.random() * radio.songs.length)];
     this.musicID = this.currentSong.song;
-    this.player.stopVideo();
-    this.player.loadVideoById(this.musicID);
-    this.savePlayer(this.player);
+    if (this.player) {
+      this.player.stopVideo();
+      this.player.loadVideoById(this.musicID);
+      this.savePlayer(this.player);
+    }
   }
 
   setTitle(title) {

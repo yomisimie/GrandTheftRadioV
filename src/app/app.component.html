@@ -5,15 +5,14 @@
   height="1"
   width="1"
 ></youtube-player>
-
-<div id="player" class="player">
+<div id="player">
   <div id="station">{{currentRadio.name}}</div>
   <div id="artist">{{currentSong.artist}}</div>
   <div id="song">{{currentSong.name}}</div>
 </div>
 <div id="info">
   <span
-    class="{{currentRadio === radio ? 'current' : ''}} {{radio.color}}"
+    class="{{currentRadio.name === radio.name ? 'current' : ''}} {{radio.color}}"
     [title]="radio.name"
     *ngFor="let radio of radios;let i=index;" (click)="changeStation(radio)"
     [ngStyle]="{transform: 'rotate('+((i+1) * degrees)+'deg) translate('+(innerHeight - (elSize + 10)) / 2+'px) rotate(-'+((i+1) * degrees)+'deg)'}"
