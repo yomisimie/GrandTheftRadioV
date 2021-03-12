@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {BlainCountyRadio} from './radios/BlainCountyRadio';
 import {BlueArk} from './radios/BlueArk';
 import {ChannelX} from './radios/ChannelX';
